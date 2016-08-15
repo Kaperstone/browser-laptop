@@ -361,6 +361,8 @@ function autofillTemplateInit (suggestions, frame) {
       value = suggestions[i].value
     } else if (frontendId === -1) {
       value = 'Disabled due to unsecure connection.'
+    } else if (frontendId === -4) {
+      value = 'Clear Form'
     } else if (frontendId === -5) {
       value = 'Autofill Settings'
     }
