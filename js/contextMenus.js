@@ -357,7 +357,7 @@ function autofillTemplateInit (suggestions, frame) {
   for (let i = 0; i < suggestions.length; ++i) {
     let value
     let frontendId = suggestions[i].frontend_id
-    if (frontendId > 0) {
+    if (frontendId >= 0) {
       value = suggestions[i].value
     } else if (frontendId === -1) {
       value = 'Disabled due to unsecure connection.'
