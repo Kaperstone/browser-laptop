@@ -587,6 +587,13 @@ class Frame extends ImmutableComponent {
     this.webview.addEventListener('page-title-updated', ({title}) => {
       windowActions.setFrameTitle(this.frame, title)
     })
+    this.webview.addEventListener('show-autofill-popup', (e) => {
+      contextMenus.onShowAutofillMenu(e.suggestions, e.rect, this.frame)
+    })
+    this.webview.addEventListener('hide-autofill-popup', (e) => {
+      // TODO - conflict with contextmenu
+      // windowActions.setContextMenuDetail()
+    })
     this.webview.addEventListener('ipc-message', (e) => {
       let method = () => {}
       switch (e.channel) {

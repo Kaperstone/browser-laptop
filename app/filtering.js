@@ -420,6 +420,36 @@ function initSession (ses, partition) {
   registeredSessions[partition] = ses
   ses.setEnableBrotli(true)
   ses.userPrefs.setDefaultZoomLevel(getSetting(settings.DEFAULT_ZOOM_LEVEL) || config.zoom.defaultValue)
+  // WIP test
+  ses.autofill.addProfile({
+    full_name: 'Anthony Tseng',
+    company_name: 'Brave',
+    street_address: '5th Avenue',
+    city: 'Taipei',
+    phone: '0123456789',
+    email: 'anthony@brave.com'
+  })
+  let guid = ses.autofill.addProfile({
+    full_name: 'Anthony Tseng2',
+    company_name: 'Brave2',
+    street_address: '5th Avenue2',
+    city: 'Taipei2',
+    phone: '01234567892',
+    email: 'anthony@brave.com2'
+  })
+  console.log(guid)
+  let list = ses.autofill.getProfile(guid)
+  console.log(list)
+  ses.autofill.removeProfile(guid)
+
+  guid = ses.autofill.addCreditCard({
+    name: 'Example Card',
+    card_number: '123456789',
+    expiration_month: '12',
+    expiration_year: '2021'
+  })
+  list = ses.autofill.getCreditCard(guid)
+  console.log(list)
 }
 
 function initForPartition (partition) {

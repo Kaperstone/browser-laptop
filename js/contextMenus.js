@@ -352,6 +352,33 @@ function usernameTemplateInit (usernames, origin, action) {
   return items
 }
 
+function autofillTemplateInit (suggestions, frame) {
+  let items = []
+  for (let i = 0; i < suggestions.length; ++i) {
+    let value
+    let frontendId = suggestions[i].frontend_id
+    if (frontendId > 0) {
+      value = suggestions[i].value
+    } else if (frontendId === -1) {
+      value = 'Disabled due to unsecure connection.'
+    } else if (frontendId === -5) {
+      value = 'Autofill Settings'
+    }
+    if (frontendId === -3) {
+      items.push(CommonMenu.separatorMenuItem)
+    } else {
+      items.push({
+        label: value,
+        click: (item, focusedWindow) => {
+          ipc.send('autofill-selection-clicked', frame.get('tabId'), value, frontendId, i)
+          windowActions.setContextMenuDetail()
+        }
+      })
+    }
+  }
+  return items
+}
+
 function tabTemplateInit (frameProps) {
   const frameKey = frameProps.get('key')
   const items = []
@@ -1040,6 +1067,15 @@ function onShowUsernameMenu (usernames, origin, action, boundingRect,
   }))
 }
 
+function onShowAutofillMenu (suggestions, boundingRect, frame) {
+  const menuTemplate = autofillTemplateInit(suggestions, frame)
+  windowActions.setContextMenuDetail(Immutable.fromJS({
+    left: boundingRect.x,
+    top: boundingRect.y,
+    template: menuTemplate
+  }))
+}
+
 function onMoreBookmarksMenu (activeFrame, allBookmarkItems, overflowItems, e) {
   const menuTemplate = moreBookmarksTemplateInit(allBookmarkItems, overflowItems, activeFrame)
   const rect = e.target.getBoundingClientRect()
@@ -1123,6 +1159,7 @@ module.exports = {
   onBookmarkContextMenu,
   onShowBookmarkFolderMenu,
   onShowUsernameMenu,
+  onShowAutofillMenu,
   onMoreBookmarksMenu,
   onBackButtonHistoryMenu,
   onForwardButtonHistoryMenu
