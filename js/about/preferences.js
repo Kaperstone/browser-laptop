@@ -431,9 +431,13 @@ class SecurityTab extends ImmutableComponent {
   constructor (e) {
     super()
     this.clearBrowsingDataNow = this.clearBrowsingDataNow.bind(this)
+    this.manageAutofillData = this.manageAutofillData.bind(this)
   }
   clearBrowsingDataNow () {
     aboutActions.clearBrowsingDataNow()
+  }
+  manageAutofillData () {
+    //aboutActions.manageAutofillData()
   }
   onToggleFlash (e) {
     aboutActions.setResourceEnabled(flash, e.target.value)
@@ -480,6 +484,11 @@ class SecurityTab extends ImmutableComponent {
           </label>
           : null
         }
+      </SettingsList>
+      <div className='sectionTitle' data-l10n-id='autofillSettings' />
+      <SettingsList>
+        <SettingCheckbox dataL10nId='enableAutofill' prefKey={settings.AUTOFILL_ENABLED} settings={this.props.settings} onChangeSetting={this.props.onChangeSetting} />
+        <Button l10nId='manageAutofillData' className='primaryButton manageAutofillDataButton' onClick={this.manageAutofillData} />
       </SettingsList>
       <div className='sectionTitle' data-l10n-id='doNotTrackTitle' />
       <SettingsList>

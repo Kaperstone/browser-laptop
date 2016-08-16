@@ -60,6 +60,7 @@ const siteSettings = require('../js/state/siteSettings')
 const spellCheck = require('./spellCheck')
 const flash = require('../js/flash')
 const contentSettings = require('../js/state/contentSettings')
+const privacy = require('../js/state/privacy')
 
 // Used to collect the per window state when shutting down the application
 let perWindowState = []
@@ -381,6 +382,7 @@ app.on('ready', () => {
     return loadedPerWindowState
   }).then((loadedPerWindowState) => {
     contentSettings.init()
+    privacy.init()
     Extensions.init()
     Filtering.init()
     SiteHacks.init()
